@@ -1,0 +1,24 @@
+def images_to_text(image_folder):
+    """
+    Converts all images in a specified folder to text.
+
+    Args:
+    image_folder (str): Path to the folder containing images.
+
+    Returns:
+    dict: A dictionary where keys are image file names and values are the extracted text.
+    """
+    text_dict = {}
+    for image_name in os.listdir(image_folder):
+        if image_name.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            image_path = os.path.join(image_folder, image_name)
+            try:
+                text = pytesseract.image_to_string(Image.open(image_path))
+                text_dict[image_name] = text
+            except Exception as e:
+                print(f"An error occurred with image {image_name}: {e}")
+    return text_dict
+
+# Usage example, replace 'image_folder_path' with your image folder's path
+# image_texts = images_to_text('image_folder_path')
+# print(image_texts)
